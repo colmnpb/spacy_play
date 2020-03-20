@@ -6,12 +6,18 @@ from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
 import re
 
+v_lemmas = ['burn','fall','die','destroy', 'smite', 'break','slay','fear','flee','kill','hate',
+            'bury','weep','curse','slew']
+
+len_v_lemmas = len(v_lemmas)
+
+
 def remove_line_headers(line):
-    return re.sub("^\d?[A-Za-z]{1,5}\d*:\d*\w*","", line)
+  return re.sub("^\d?[A-Za-z]{1,5}\d*:\d*\w*","", line)
 
 def parse_line_into_components(line):
   dict = {}
-  print(line)
+  #print(line)
   m = re.search('^(\d?[A-Za-z]{1,5})(\d*):(\d*)\w{1}(.*)$', line)
   dict['book'] = m.group(1)
   dict['chapter'] = m.group(2)
@@ -19,6 +25,17 @@ def parse_line_into_components(line):
   dict['text'] = m.group(4)
 
   return dict
+
+def is_new_testament(book):
+  nt_books = ['Mat','Mark', 'Luke','John','Acts','Rom','1Cor','2Cor', 'Gal', 'Eph','Phi', 'Col', '1Th', 
+              '2Th', '1Tim','2Tim','Titus','Phmn','Heb','Jas','1Pet', '2Pet', '1Jn', '2Jn', '3Jn',
+               'Jude', 'Rev']
+  if book in nt_books:
+    return True
+  else:
+    return False
+
+
 
 with open('/home/colmnpb/Downloads/kjv/kjv.txt', "r") as f:
   raw_text = f.readlines()
@@ -30,19 +47,47 @@ raw_text.pop(0)
 
 parsed_lines = [parse_line_into_components(line) for line in raw_text]
 
-for line in parsed_lines:
-    print(line)
+# for line in parsed_lines:
+#     print(line)
 
+# get list of books (unordered)
+books = list(set([line['book'] for line in parsed_lines]))
 
+#print(books)
 
-#nlp = English();
+by_book = {}
+
+for book in books:
+  by_book[book] = [line['text'] for line in parsed_lines if line['book'] == book]
+  by_book[book] = "".join(by_book[book])
+
+# print
+# print(type(by_book['Rev']))
+# print
+
 nlp = spacy.load('en_core_web_lg')
 print("loaded spacy model")
 spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
-nlp.max_length = 5000000 #to handle entire text of bible
-#sbd = nlp.create_pipe('sentencizer')
-#nlp.add_pipe(sbd)
+# nlp.max_length = 5000000 #to handle entire text of bible
 
+for book in books:
+  print(book)
+  book_features = [0] * len_v_lemmas
+  doc = nlp(by_book[book])
+  for token in doc:
+    for li, lemma in enumerate(v_lemmas):
+      # print("token type:", type(token), "- > ", token)
+      # print("lemma type", type(lemma), "- > ", lemma)
+      if token.lemma_ == lemma:
+        book_features[li] = 1
+  print(book_features)
+
+
+
+
+
+
+exit()
 
 doc = nlp("".join(raw_lines))
 #doc = nlp("".join(raw_lines[1:100]))
