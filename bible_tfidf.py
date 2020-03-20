@@ -7,16 +7,31 @@ from sklearn.pipeline import Pipeline
 import re
 
 def remove_line_headers(line):
-    return re.sub("^\d?[A-Z][a-z]{1,2}\d*:\d*\w*","", line)
+    return re.sub("^\d?[A-Za-z]{1,5}\d*:\d*\w*","", line)
+
+def parse_line_into_components(line):
+  dict = {}
+  print(line)
+  m = re.search('^(\d?[A-Za-z]{1,5})(\d*):(\d*)\w{1}(.*)$', line)
+  dict['book'] = m.group(1)
+  dict['chapter'] = m.group(2)
+  dict['verse'] = m.group(3)
+  dict['text'] = m.group(4)
+
+  return dict
 
 with open('/home/colmnpb/Downloads/kjv/kjv.txt', "r") as f:
   raw_text = f.readlines()
 
+#remove first line (header)
+raw_text.pop(0)
 
-raw_lines = [remove_line_headers(line) for line in raw_text ]
+#raw_lines = [remove_line_headers(line) for line in raw_text ]
 
-#for line in raw_lines:
-#    print(line)
+parsed_lines = [parse_line_into_components(line) for line in raw_text]
+
+for line in parsed_lines:
+    print(line)
 
 
 
@@ -52,14 +67,6 @@ for token in doc:
 #    f.write( str(verbs[key]))
 #    f.write("\n")
 
-with open('raw_adj.txt', "r") as f:
-  raw_adjs = f.readlines
-
-adj_doc = nlp("".joine(raw_adjs))
-
-
-
-exit()
 
 sents_list = []
 for sent in doc.sents:
