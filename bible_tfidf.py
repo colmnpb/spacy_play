@@ -70,6 +70,9 @@ print("loaded spacy model")
 spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
 # nlp.max_length = 5000000 #to handle entire text of bible
 
+X = []
+Y = []
+
 for book in books:
   print(book)
   book_features = [0] * len_v_lemmas
@@ -80,8 +83,15 @@ for book in books:
       # print("lemma type", type(lemma), "- > ", lemma)
       if token.lemma_ == lemma:
         book_features[li] = 1
-  print(book_features)
+  #print(book_features)
+  X.append(book_features)
+  if (is_new_testament(book)):
+    Y.append(1)
+  else:
+    Y.append(0)
 
+print(X)
+print(Y)
 
 
 
