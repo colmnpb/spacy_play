@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
+from sklearn.tree import DecisionTreeClassifier
 import re
 
 v_lemmas = ['burn','fall','die','destroy', 'smite', 'break','slay','fear','flee','kill','hate',
@@ -90,29 +91,24 @@ for book in books:
   else:
     Y.append(0)
 
-print(X)
-print(Y)
+# print(X)
+#print(Y)
 
 
-
-
-
-exit()
-
-doc = nlp("".join(raw_lines))
+#doc = nlp("".join(raw_lines))
 #doc = nlp("".join(raw_lines[1:100]))
 
-verbs = {}
-for token in doc:
+# verbs = {}
+# for token in doc:
 
-  #print(token, "::", token.pos_)
+#   #print(token, "::", token.pos_)
 
-  if token.pos_ == "VERB":
-    print(token, "-->", token.lemma_)
-    if not token.lemma_ in verbs:
-      verbs[token.lemma_] = 1
-    else:
-      verbs[token.lemma_] = verbs[token.lemma_] + 1
+#   if token.pos_ == "VERB":
+#     print(token, "-->", token.lemma_)
+#     if not token.lemma_ in verbs:
+#       verbs[token.lemma_] = 1
+#     else:
+#       verbs[token.lemma_] = verbs[token.lemma_] + 1
 
 
 # with open('verbs.csv', "w") as f:
@@ -123,15 +119,23 @@ for token in doc:
 #    f.write("\n")
 
 
-sents_list = []
-for sent in doc.sents:
-    sents_list.append(sent.text)
-#print(sents_list)
+# sents_list = []
+# for sent in doc.sents:
+#     sents_list.append(sent.text)
+# #print(sents_list)
 
-tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=100)
+# tfidf_vectorizer = TfidfVectorizer(stop_words='english', max_features=100)
 
-x = tfidf_vectorizer.fit_transform(sents_list)
+# x = tfidf_vectorizer.fit_transform(sents_list)
 
-print(x)
+# print(x)
 
-print(tfidf_vectorizer.get_feature_names())
+# print(tfidf_vectorizer.get_feature_names())
+
+# simple DTC first (only 15 features, Random Forest would be overkill!), no test split
+
+tree = DecisionTreeClassifier(random_state=42)
+tree.fit(X,Y)
+print("Accuracy:  ", tree.score(X,Y))
+
+
