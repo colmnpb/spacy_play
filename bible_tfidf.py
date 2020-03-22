@@ -108,22 +108,26 @@ spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
 # nlp.max_length = 5000000 #to handle entire text of bible
 
 ### test 
-doc1 = nlp('The quick brown fox jumped over the lazy dog. I am a lazy developer. ')
-list_a = ['quick', 'brown', 'lazy', 'stick']
-list_b = ['fox','dog', 'airplane']
+# doc1 = nlp('The quick brown fox jumped over the lazy dog. I am a lazy developer. ')
+# list_a = ['quick', 'brown', 'lazy', 'stick']
+# list_b = ['fox','dog', 'airplane']
 
-t1 = find_matches_from_both_lists(doc1, list_a, list_b)
-print(t1)
+# t1 = find_matches_from_both_lists(doc1, list_a, list_b)
+# print(t1)
 
-doc2 = nlp("Able was I ere I saw Elba. I'm a lazy developer, but can be quick at times.")
-t2 = find_matches_from_both_lists(doc2, list_a, list_b)
-print(t2)
+# doc2 = nlp("Able was I ere I saw Elba. I'm a lazy developer, but can be quick at times.")
+# t2 = find_matches_from_both_lists(doc2, list_a, list_b)
+# print(t2)
 
-doc3 = nlp("My dog chased a fox while I was looking at an airplane.")
-t3 = find_matches_from_both_lists(doc3, list_a, list_b)
-print(t3)
+# doc3 = nlp("My dog chased a fox while I was looking at an airplane.")
+# t3 = find_matches_from_both_lists(doc3, list_a, list_b)
+# print(t3)
 
+list_a = set(['red', 'green','yellow','blue', 'red']) #extra red should be dropped by set
+list_b = set(['dog','cat','cow','gnu'])
 
+combined_matches = combine_matches(list_a,list_b)
+print( combined_matches)
 
 exit()
 
