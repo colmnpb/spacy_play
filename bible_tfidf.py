@@ -5,6 +5,8 @@ from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from sklearn.base import TransformerMixin
 from sklearn.pipeline import Pipeline
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix
 import re
 
 v_lemmas = ['burn','fall','die','destroy', 'smite', 'break','slay','fear','flee','kill','hate',
@@ -132,10 +134,18 @@ for book in books:
 
 # print(tfidf_vectorizer.get_feature_names())
 
-# simple DTC first (only 15 features, Random Forest would be overkill!), no test split
+#test/train split
 
-tree = DecisionTreeClassifier(random_state=42)
-tree.fit(X,Y)
-print("Accuracy:  ", tree.score(X,Y))
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size = 0.3, random_state=42)
 
+# simple DTC first (only 15 features, Random Forest would be overkill!)
+
+tree_model = DecisionTreeClassifier()
+tree_model.fit(X_train, Y_train)
+
+tree_model_predictions = tree_model.predict(X_test)
+
+cm = confusion_matrix(Y_test, tree_model_predictions)
+
+print(cm)
 
