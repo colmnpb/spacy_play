@@ -38,6 +38,40 @@ def is_new_testament(book):
   else:
     return False
 
+def find_matches_from_both_lists(doc, list_a, list_b):
+  matches_a = set()
+  matches_b = set()
+  retval = {}
+
+  for token in doc:
+    if token.lemma_ in list_a:
+      matches_a.add(token.lemma_)
+    if token.lemma_ in list_b:
+      matches_b.add(token.lemma_)
+
+  if not matches_a or not matches_b:
+    retval['matches_found'] = False
+    retval['matches_a'] = set()
+    retval['matches_b'] = set()
+  else:
+    retval['matches_found'] = True
+    retval['matches_a'] = matches_a
+    retval['matches_b'] = matches_b
+
+  return retval
+
+def combine_matches(list_a, list_b):
+
+  combined_matches = set()
+
+  for a_item in list_a:
+    for b_item in list_b:
+      if a_item < b_item:
+        combined_matches.add(a_item + b_item)
+      else:
+        combined_matches.add(b_item + a_item)
+
+  return combined_matches
 
 
 with open('/home/colmnpb/Downloads/kjv/kjv.txt', "r") as f:
@@ -72,6 +106,26 @@ nlp = spacy.load('en_core_web_lg')
 print("loaded spacy model")
 spacy_stopwords = spacy.lang.en.stop_words.STOP_WORDS
 # nlp.max_length = 5000000 #to handle entire text of bible
+
+### test 
+doc1 = nlp('The quick brown fox jumped over the lazy dog. I am a lazy developer. ')
+list_a = ['quick', 'brown', 'lazy', 'stick']
+list_b = ['fox','dog', 'airplane']
+
+t1 = find_matches_from_both_lists(doc1, list_a, list_b)
+print(t1)
+
+doc2 = nlp("Able was I ere I saw Elba. I'm a lazy developer, but can be quick at times.")
+t2 = find_matches_from_both_lists(doc2, list_a, list_b)
+print(t2)
+
+doc3 = nlp("My dog chased a fox while I was looking at an airplane.")
+t3 = find_matches_from_both_lists(doc3, list_a, list_b)
+print(t3)
+
+
+
+exit()
 
 X = []
 Y = []
