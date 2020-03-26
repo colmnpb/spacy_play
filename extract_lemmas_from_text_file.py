@@ -1,21 +1,26 @@
+import sys
 import spacy
-#from spacy.lang.en import English
 
-with open('raw_adj.txt', "r") as f:
-  raw_adjs = f.readlines()
+if len(sys.argv) < 2:
+  print("usage: python extract_lemmas_from_text_file.py <filename>")
+  print()
+  exit()
 
-nlp = spacy.load('en_core_web_lg')
+fn = sys.argv[1] 
 
-adj_doc = nlp("".join(raw_adjs))
+with open(fn, "r") as f:
+  raw_text = f.readlines()
 
-adj_lemmas = {}
-for token in adj_doc:
+nlp = spacy.load('en_core_web_sm')
+
+text_doc = nlp("".join(raw_text))
+
+text_lemmas = {}
+for token in text_doc:
   if token.lemma_ and not(token.lemma_ == "\n") :
-      print("->", token.lemma_, "<-")
-      adj_lemmas[token.lemma_] = "noop"
+      text_lemmas[token.lemma_] = "noop"
 
-with open("adj_lemmas.txt", "w") as f:
-  for lemma in adj_lemmas.keys():
-      print(lemma)
+with open('lemmas_from_' + fn, "w") as f:
+  for lemma in text_lemmas.keys():
       f.write(lemma)
       f.write("\n")
