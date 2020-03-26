@@ -88,8 +88,8 @@ class TestBibleTwoListModel(unittest.TestCase):
     self.assertEquals(test_results['text'], 'Redeem Israel, O God, out of all his troubles.')
 
   def test_is_new_testament(self):
-    self.assertFalse(is_new_testament('Gen'))
-    self.assertTrue(is_new_testament('Mat'))
+    self.assertEquals(is_new_testament('Gen'), False)
+    self.assertEquals(is_new_testament('Mat'), True)
 
 if __name__ ==  '__main__':
   unittest.main()
