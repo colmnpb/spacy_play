@@ -30,12 +30,11 @@ def find_matches_from_both_lists(doc, list_a, list_b):
 
   if not matches_a or not matches_b:
     retval['matches_from_both'] = False
-    retval['matches_a'] = matches_a
-    retval['matches_b'] = matches_b
   else:
     retval['matches_from_both'] = True
-    retval['matches_a'] = matches_a
-    retval['matches_b'] = matches_b
+
+  retval['matches_a'] = matches_a
+  retval['matches_b'] = matches_b
 
   return retval
 
@@ -54,6 +53,13 @@ def combine_matches(list_a, list_b):
 
 possible_matches = list(combine_matches(list_a, list_b))
 len_possible_matches = len(possible_matches)
+
+def create_feature_array_from_matches(matches, possible_matches):
+  X = [0] * len(possible_matches)
+  for m in matches:
+    m_index = possible_matches.index(m)
+    X[m_index] = 1
+  return X
 
 def remove_line_headers(line):
   return re.sub("^\d?[A-Za-z]{1,5}\d*:\d*\w*","", line)
@@ -129,23 +135,16 @@ for book in books:
     if match_res['matches_from_both']:
         # set feature for sentence
         sentences_matches = combine_matches(match_res['matches_a'], match_res['matches_b'])
-        for s_m in sentences_matches:
-            s_m_index = possible_matches.index(s_m)
-            X_sentences[s_m_index] = 1
-            print("each sentence:  ", sent)
-            print("match: ", s_m)
-
+        X_sentences = create_feature_array_from_matches(sentences_matches, possible_matches)
+    
+    # add matches from this sentence to the matches for the book
     book_matches_a.update(match_res['matches_a'])
     book_matches_b.update(match_res['matches_b'])
   
   book_matches = combine_matches(book_matches_a, book_matches_b)
-  for b_m in book_matches:
-    b_m_index = possible_matches.index(b_m)
-    print("book match:  ", b_m)
-    X_book[b_m_index] = 1
+  X_book = create_feature_array_from_matches(book_matches, possible_matches)
 
-
-  # combine matches found for document and set features for book
+  # combine matches found in all the sentences in the book and the matches for the book overall
   X.append(X_sentences + X_book)
   if (is_new_testament(book)):
     Y.append(1)
