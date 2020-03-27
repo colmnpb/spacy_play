@@ -9,6 +9,22 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import re
 
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.colors import ListedColormap
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import make_moons, make_circles, make_classification
+from sklearn.neural_network import MLPClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.svm import SVC
+from sklearn.gaussian_process import GaussianProcessClassifier
+from sklearn.gaussian_process.kernels import RBF
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+
 #list is 15 top "violent" terms handpicked from TF-IDF
 list_a = ['burn','fall','die','destroy', 'smite', 'break','slay','fear','flee','kill','hate',
             'bury','weep','curse','slew']
@@ -161,12 +177,36 @@ if __name__ == "__main__":
 
   # # simple DTC first (only 90 features, Random Forest would be overkill!)
 
-  tree_model = DecisionTreeClassifier()
-  tree_model.fit(X_train, Y_train)
+#==================================================================
+# MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,15]), score: 0.55
+  # MLPClassifier( max_iter=10000), score: 0.55
+  # MLPClassifier( max_iter=10000, alpha=.1), score: 0.55
+  # MLPClassifier( max_iter=10000, alpha=.01), score: 0.55
+  # MLPClassifier( max_iter=10000, alpha=.001), score: 0.55
+  # MLPClassifier( max_iter=10000, hidden_layer_sizes=[60]), score: 0. 60
+  # MLPClassifier( max_iter=10000, hidden_layer_sizes=[15]), score: 0.55
+  # MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,15]), score: 0.55
+models=[ 
+  KNeighborsClassifier(3),
+  SVC(kernel="linear", C=0.025),
+  SVC(gamma=2, C=1),
+  GaussianProcessClassifier(1.0 * RBF(1.0)),
+  DecisionTreeClassifier(max_depth=5),
+  RandomForestClassifier(max_depth=5, n_estimators=10, max_features=None),
+  MLPClassifier( max_iter=50000, hidden_layer_sizes=[60]),
+  MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,60]),
+  MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,60,60]),
+  MLPClassifier( max_iter=10000, hidden_layer_sizes=[15]),
+  MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15]),
+  MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15,15]),
+  AdaBoostClassifier(),
+  GaussianNB(),
+  QuadraticDiscriminantAnalysis()
+  ]
 
-  tree_model_predictions = tree_model.predict(X_test)
-
-  cm = confusion_matrix(Y_test, tree_model_predictions)
-
-  print(cm)
-
+for model in models:
+  print(type(model))
+  model.fit(X_train, Y_train)
+  score = model.score(X_test, Y_test)
+  print(score)
+  print()
