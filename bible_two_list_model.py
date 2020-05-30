@@ -27,9 +27,9 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 #list is 15 top "violent" terms handpicked from TF-IDF
 list_a = ['burn','fall','die','destroy', 'smite', 'break','slay','fear','flee','kill','hate',
-            'bury','weep','curse','slew']
+            'bury','weep','curse','slew', 'sword', 'cut', 'sacrifice', 'sword']
 
-list_b = ['jesus','god','pharoh']            
+list_b = ['jesus','god','pharoh', 'lord']            
 
 len_list_a = len(list_a)
 len_list_b = len(list_b)
@@ -190,7 +190,7 @@ models=[
   MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15,15]),
   AdaBoostClassifier(),
   GaussianNB(),
-  QuadraticDiscriminantAnalysis()
+ # QuadraticDiscriminantAnalysis()
   ]
 
 for model in models:

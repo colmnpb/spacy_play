@@ -1,41 +1,41 @@
 <class 'sklearn.neighbors._classification.KNeighborsClassifier'>
-0.65
+0.9
 
 <class 'sklearn.svm._classes.SVC'>
-0.5
+0.45
 
 <class 'sklearn.svm._classes.SVC'>
-0.65
+0.45
 
 <class 'sklearn.gaussian_process._gpc.GaussianProcessClassifier'>
-0.65
+0.45
 
 <class 'sklearn.tree._classes.DecisionTreeClassifier'>
-0.65
+0.4
 
 <class 'sklearn.ensemble._forest.RandomForestClassifier'>
-0.65
+0.45
 
 <class 'sklearn.neural_network._multilayer_perceptron.MLPClassifier'>
-0.65
+0.45
 
 <class 'sklearn.neural_network._multilayer_perceptron.MLPClassifier'>
-0.65
+0.45
 
 <class 'sklearn.neural_network._multilayer_perceptron.MLPClassifier'>
-0.65
+0.45
 
 <class 'sklearn.neural_network._multilayer_perceptron.MLPClassifier'>
-0.65
+0.45
 
 <class 'sklearn.neural_network._multilayer_perceptron.MLPClassifier'>
-0.65
+0.45
 
 <class 'sklearn.neural_network._multilayer_perceptron.MLPClassifier'>
-0.65
+0.45
 
 <class 'sklearn.ensemble._weight_boosting.AdaBoostClassifier'>
-0.65
+0.45
 
 <class 'sklearn.naive_bayes.GaussianNB'>
 0.65
