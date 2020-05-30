@@ -27,7 +27,7 @@ from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 
 #list is 15 top "violent" terms handpicked from TF-IDF
 list_a = ['burn','fall','die','destroy', 'smite', 'break','slay','fear','flee','kill','hate',
-            'bury','weep','curse','slew', 'sword', 'cut', 'sacrifice', 'sword']
+            'bury','weep','curse','slew', 'cut', 'sacrifice', 'sword']
 
 list_b = ['jesus','god','pharoh', 'lord']            
 
