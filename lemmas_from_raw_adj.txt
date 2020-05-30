@@ -1,0 +1,6 @@
+capture
+lost
+bind
+hungry
+arrest
+enslave
