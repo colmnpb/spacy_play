@@ -8,7 +8,7 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 import re
-
+import numpy as np
 
 def remove_line_headers(line):
   return re.sub("^\d?[A-Za-z]{1,5}\d*:\d*\w*","", line)
@@ -59,6 +59,16 @@ x = tfidf_vectorizer.fit_transform(list(word_set))
 
 print(x)
 
-print("lemma tf-idf")
-print(tfidf_vectorizer.get_feature_names())
+indices = np.argsort(tfidf_vectorizer.idf_)[::-1]
+features = tfidf_vectorizer.get_feature_names()
+print("all lemma tf-idf")
+print(features)
 print("\n\n\n\n")
+
+print("top features")
+
+#NOTE:  top_features is ordered low to high TF-IDF
+top_features = [features[i] for i in indices]
+
+for text in reversed(top_features):
+  print(text)
