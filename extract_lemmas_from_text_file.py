@@ -15,12 +15,12 @@ nlp = spacy.load('en_core_web_sm')
 
 text_doc = nlp("".join(raw_text))
 
-text_lemmas = {}
+text_lemmas = set()
 for token in text_doc:
-  if token.lemma_ and not(token.lemma_ == "\n") :
-      text_lemmas[token.lemma_] = "noop"
+  if not(token.is_stop) and not(token.lemma_ == "\n") and  token.lemma_   :
+      text_lemmas.add(token.lemma_)
 
 with open('lemmas_from_' + fn, "w") as f:
-  for lemma in text_lemmas.keys():
+  for lemma in text_lemmas:
       f.write(lemma)
       f.write("\n")
