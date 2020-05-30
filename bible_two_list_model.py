@@ -175,17 +175,6 @@ if __name__ == "__main__":
 
   X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size = 0.3, random_state=42)
 
-  # # simple DTC first (only 90 features, Random Forest would be overkill!)
-
-#==================================================================
-# MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,15]), score: 0.55
-  # MLPClassifier( max_iter=10000), score: 0.55
-  # MLPClassifier( max_iter=10000, alpha=.1), score: 0.55
-  # MLPClassifier( max_iter=10000, alpha=.01), score: 0.55
-  # MLPClassifier( max_iter=10000, alpha=.001), score: 0.55
-  # MLPClassifier( max_iter=10000, hidden_layer_sizes=[60]), score: 0. 60
-  # MLPClassifier( max_iter=10000, hidden_layer_sizes=[15]), score: 0.55
-  # MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,15]), score: 0.55
 models=[ 
   KNeighborsClassifier(3),
   SVC(kernel="linear", C=0.025),
