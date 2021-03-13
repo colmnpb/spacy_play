@@ -175,27 +175,27 @@ if __name__ == "__main__":
 
   X_train, X_test, Y_train, Y_test = train_test_split(X,Y,test_size = 0.3, random_state=42)
 
-models=[ 
-  KNeighborsClassifier(3),
-  SVC(kernel="linear", C=0.025),
-  SVC(gamma=2, C=1),
-  GaussianProcessClassifier(1.0 * RBF(1.0)),
-  DecisionTreeClassifier(max_depth=5),
-  RandomForestClassifier(max_depth=5, n_estimators=10, max_features=None),
-  MLPClassifier( max_iter=50000, hidden_layer_sizes=[60]),
-  MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,60]),
-  MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,60,60]),
-  MLPClassifier( max_iter=10000, hidden_layer_sizes=[15]),
-  MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15]),
-  MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15,15]),
-  AdaBoostClassifier(),
-  GaussianNB(),
- # QuadraticDiscriminantAnalysis()
+  models=[ 
+    KNeighborsClassifier(3),
+    SVC(kernel="linear", C=0.025),
+    SVC(gamma=2, C=1),
+    GaussianProcessClassifier(1.0 * RBF(1.0)),
+    DecisionTreeClassifier(max_depth=5),
+    RandomForestClassifier(max_depth=5, n_estimators=10, max_features=None),
+    MLPClassifier( max_iter=50000, hidden_layer_sizes=[60]),
+    MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,60]),
+    MLPClassifier( max_iter=10000, hidden_layer_sizes=[60,60,60]),
+    MLPClassifier( max_iter=10000, hidden_layer_sizes=[15]),
+    MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15]),
+    MLPClassifier( max_iter=10000, hidden_layer_sizes=[15,15,15]),
+    AdaBoostClassifier(),
+    GaussianNB(),
+  # QuadraticDiscriminantAnalysis()
   ]
 
-for model in models:
-  print(type(model))
-  model.fit(X_train, Y_train)
-  score = model.score(X_test, Y_test)
-  print(score)
-  print()
+  for model in models:
+    print(type(model))
+    model.fit(X_train, Y_train)
+    score = model.score(X_test, Y_test)
+    print(score)
+    print()
